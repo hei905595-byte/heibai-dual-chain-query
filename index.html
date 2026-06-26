@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>双链地址查询</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="browser-bar" aria-label="站点导航">
+        <button class="icon-button" aria-label="打开菜单">
+          <span></span><span></span><span></span>
+        </button>
+        <strong id="siteHost">chahaxi.com</strong>
+        <button class="refresh-button" aria-label="刷新数据">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 12a8 8 0 1 1-2.34-5.66" />
+            <path d="M20 4v6h-6" />
+          </svg>
+        </button>
+      </header>
+
+      <main>
+        <section class="brand-strip" aria-label="品牌">
+          <span class="brand-mark">
+            <svg viewBox="0 0 40 40" aria-hidden="true">
+              <path d="M8 8l24 5-13 19L8 8Z" />
+              <path d="M8 8l11 24 4-14 9-5" />
+            </svg>
+          </span>
+          <div>
+            <h1>查地址</h1>
+            <p>USDT / TRX / ETH 双链记录查询</p>
+          </div>
+        </section>
+
+        <section class="search-panel" aria-label="地址查询">
+          <p class="lead">查询 USDT 交易明细，并快速统计地址收支</p>
+          <div class="chain-tabs" role="tablist" aria-label="选择链">
+            <button class="active" data-chain="tron" type="button">TRON</button>
+            <button data-chain="ethereum" type="button">Ethereum</button>
+          </div>
+          <form class="search-form" id="queryForm">
+            <input
+              id="addressInput"
+              name="address"
+              autocomplete="off"
+              placeholder="请输入要查询的 TRX 或 ETH 地址"
+              required
+            />
+            <button type="submit">搜索</button>
+          </form>
+          <p class="form-hint" id="formHint">支持 TRON 和 Ethereum 地址查询</p>
+        </section>
+
+        <section class="rate-card" aria-label="币种价格">
+          <ul class="rate-list" id="rateList">
+            <li>
+              <span class="coin coin-usdt">T</span>
+              <strong>USDT</strong>
+              <em data-symbol="USDT">-- ¥</em>
+            </li>
+            <li>
+              <span class="coin coin-btc">B</span>
+              <strong>BTC</strong>
+              <em data-symbol="BTC">-- ¥</em>
+            </li>
+            <li>
+              <span class="coin coin-trx">T</span>
+              <strong>TRX</strong>
+              <em data-symbol="TRX">-- ¥</em>
+            </li>
+            <li>
+              <span class="coin coin-eth">E</span>
+              <strong>ETH</strong>
+              <em data-symbol="ETH">-- ¥</em>
+            </li>
+          </ul>
+          <p>实时获取主流平台平均价格，仅供查询参考</p>
+        </section>
+
+        <section class="result-panel" id="resultPanel" aria-live="polite" hidden>
+          <div class="result-head">
+            <span id="resultChain">TRON</span>
+            <strong id="resultTitle">查询结果</strong>
+          </div>
+          <dl>
+            <div>
+              <dt>地址</dt>
+              <dd id="resultAddress">--</dd>
+            </div>
+            <div>
+              <dt>USDT 收入</dt>
+              <dd id="incomeValue">--</dd>
+            </div>
+            <div>
+              <dt>USDT 支出</dt>
+              <dd id="outcomeValue">--</dd>
+            </div>
+            <div>
+              <dt>交易数量</dt>
+              <dd id="txCount">--</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="service-list" aria-label="服务入口">
+          <article class="service-card">
+            <span class="service-icon house">租</span>
+            <h2>能量供应商</h2>
+            <p>一笔也是批发价</p>
+          </article>
+          <article class="service-card">
+            <span class="service-icon tg">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 4 3 11.5l7 2.2L12.5 20l3.2-4.7 4.5-9.8Z" />
+                <path d="m10 13.7 5.8-5" />
+              </svg>
+            </span>
+            <h2>TG 机器人</h2>
+            <p>USDT 与 TRX 交易提醒</p>
+          </article>
+          <article class="service-card">
+            <span class="service-icon outline">
+              <svg viewBox="0 0 40 40" aria-hidden="true">
+                <path d="M8 8l24 5-13 19L8 8Z" />
+                <path d="M8 8l11 24 4-14 9-5" />
+              </svg>
+            </span>
+            <h2>TRX 自动闪兑</h2>
+            <p>USDT 与 TRX 快速兑换</p>
+          </article>
+          <article class="service-card">
+            <span class="service-icon solid">
+              <svg viewBox="0 0 40 40" aria-hidden="true">
+                <path d="M8 8l24 5-13 19L8 8Z" />
+                <path d="M8 8l11 24 4-14 9-5" />
+              </svg>
+            </span>
+            <h2>免 TRX 转账 USDT</h2>
+            <p>多元化的能量类型</p>
+          </article>
+          <article class="service-card">
+            <span class="service-icon cloud">云</span>
+            <h2>云端自动充值</h2>
+            <p>开户后记得更换自己的邮箱</p>
+          </article>
+        </section>
+
+        <div class="batch-row">
+          <button id="batchButton" type="button">批量查询地址余额</button>
+        </div>
+      </main>
+
+      <footer class="footer-bar">
+        <a href="#" aria-label="官方客服">
+          <span class="telegram-dot">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 4 3 11.5l7 2.2L12.5 20l3.2-4.7 4.5-9.8Z" />
+            </svg>
+          </span>
+          官方客服
+        </a>
+      </footer>
+    </div>
+
+    <script src="./config.js"></script>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>

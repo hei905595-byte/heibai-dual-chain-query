@@ -1,0 +1,472 @@
+:root {
+  --bg: #f4f8fb;
+  --paper: #ffffff;
+  --paper-soft: #f9fcff;
+  --line: #dbe4ed;
+  --text: #17212c;
+  --muted: #85919f;
+  --blue: #376ff0;
+  --blue-dark: #1f5f93;
+  --cyan: #24a9e8;
+  --red: #ef274a;
+  --shadow: 0 12px 30px rgba(46, 67, 94, 0.11);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: linear-gradient(180deg, #ffffff 0, var(--bg) 42%, #e8f1f7 100%);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  width: min(100%, 430px);
+  min-height: 100vh;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #fff 0, #f5f9fc 100%);
+}
+
+.browser-bar {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 12px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+}
+
+.browser-bar strong {
+  min-height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  color: white;
+  background: #68696b;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.2);
+  font-size: 1.18rem;
+}
+
+.icon-button,
+.refresh-button {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 14px;
+  color: #69727c;
+  background: transparent;
+}
+
+.icon-button span {
+  width: 22px;
+  height: 3px;
+  display: block;
+  margin: 2px 0;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.refresh-button svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.3;
+}
+
+main {
+  padding: 18px 14px 42px;
+}
+
+.brand-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0 64px;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  color: white;
+  background: var(--red);
+}
+
+.brand-mark svg,
+.service-icon svg {
+  width: 27px;
+  height: 27px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.brand-strip h1 {
+  margin: 0;
+  color: var(--blue-dark);
+  font-size: 1.72rem;
+  line-height: 1;
+}
+
+.brand-strip p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.search-panel {
+  text-align: center;
+}
+
+.lead {
+  margin: 0 0 22px;
+  color: #969da6;
+  font-size: 1.28rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.chain-tabs {
+  width: fit-content;
+  display: flex;
+  gap: 4px;
+  margin: 0 auto 12px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #edf4fa;
+}
+
+.chain-tabs button {
+  min-width: 96px;
+  min-height: 34px;
+  border: 0;
+  border-radius: 9px;
+  color: #647281;
+  background: transparent;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.chain-tabs button.active {
+  color: white;
+  background: var(--blue);
+  box-shadow: 0 8px 18px rgba(55, 111, 240, 0.24);
+}
+
+.search-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 92px;
+  overflow: hidden;
+  border: 1px solid #cfd9e4;
+  border-radius: 7px;
+  background: var(--paper);
+}
+
+.search-form input {
+  min-width: 0;
+  min-height: 54px;
+  padding: 0 17px;
+  border: 0;
+  outline: none;
+  color: var(--text);
+  font-size: 0.98rem;
+}
+
+.search-form input::placeholder {
+  color: #7f8894;
+}
+
+.search-form button {
+  border: 0;
+  color: white;
+  background: var(--blue);
+  font-size: 1.06rem;
+  font-weight: 750;
+}
+
+.form-hint {
+  min-height: 20px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.rate-card {
+  margin-top: 28px;
+  padding: 26px 26px 30px;
+  background: linear-gradient(180deg, #f7fbff, #ffffff);
+  box-shadow: var(--shadow);
+}
+
+.rate-list {
+  width: min(100%, 235px);
+  display: grid;
+  gap: 12px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.rate-list li {
+  display: grid;
+  grid-template-columns: 31px 1fr auto;
+  align-items: center;
+  gap: 11px;
+}
+
+.coin {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.coin-usdt {
+  background: #2ebd85;
+}
+
+.coin-btc {
+  background: #f59720;
+}
+
+.coin-trx {
+  background: #d93434;
+}
+
+.coin-eth {
+  background: #7189e8;
+}
+
+.rate-list strong,
+.rate-list em {
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.rate-card p {
+  margin: 26px 0 0;
+  color: #9ca2aa;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.result-panel {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #d9e4ec;
+  border-radius: 12px;
+  background: var(--paper);
+  box-shadow: 0 10px 24px rgba(48, 72, 94, 0.08);
+}
+
+.result-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.result-head span {
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: #186a9a;
+  background: #e6f6ff;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.result-panel dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.result-panel dl div {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.result-panel dt {
+  color: var(--muted);
+}
+
+.result-panel dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-weight: 700;
+}
+
+.service-list {
+  display: grid;
+  gap: 22px;
+  margin-top: 28px;
+}
+
+.service-card {
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  padding: 24px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.service-icon {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+  color: var(--blue-dark);
+  font-size: 1.9rem;
+  font-weight: 900;
+}
+
+.service-icon.house {
+  color: #0a0d12;
+}
+
+.service-icon.tg {
+  border-radius: 50%;
+  color: white;
+  background: var(--cyan);
+}
+
+.service-icon.outline {
+  color: #c83734;
+}
+
+.service-icon.outline svg,
+.service-icon.solid svg {
+  width: 62px;
+  height: 62px;
+}
+
+.service-icon.solid {
+  border-radius: 50%;
+  color: white;
+  background: var(--red);
+}
+
+.service-icon.cloud {
+  border: 2px solid #f18b85;
+  border-radius: 50%;
+  color: #ef6f68;
+  background: #fff2f1;
+  font-size: 1.45rem;
+}
+
+.service-card h2 {
+  margin: 0;
+  color: var(--blue-dark);
+  font-size: 1.02rem;
+}
+
+.service-card p {
+  margin: 5px 0 0;
+  color: var(--blue-dark);
+  font-size: 0.92rem;
+}
+
+.batch-row {
+  margin: 22px 0 0;
+}
+
+.batch-row button {
+  min-height: 44px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 6px;
+  color: white;
+  background: var(--blue);
+  box-shadow: 0 8px 18px rgba(55, 111, 240, 0.22);
+  font-weight: 700;
+}
+
+.footer-bar {
+  min-height: 116px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  background: #58758e;
+}
+
+.footer-bar a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #e8f3fb;
+  text-decoration: none;
+  font-size: 0.86rem;
+}
+
+.telegram-dot {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  background: var(--cyan);
+}
+
+.telegram-dot svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+@media (min-width: 720px) {
+  body {
+    padding: 24px 0;
+  }
+
+  .app-shell {
+    border: 1px solid #dce6ef;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(31, 54, 76, 0.16);
+  }
+}
