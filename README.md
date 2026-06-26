@@ -20,10 +20,10 @@ cp config.example.js config.js
 window.APP_CONFIG = {
   siteHost: "your-domain.com",
   endpoints: {
-    prices: "https://api.example.com/prices",
-    tronAddress: "https://api.example.com/tron/address",
-    ethereumAddress: "https://api.example.com/ethereum/address",
-    batchBalance: "https://api.example.com/batch/balance",
+    prices: "/api/prices",
+    tronAddress: "/api/address/tron",
+    ethereumAddress: "/api/address/ethereum",
+    batchBalance: "/api/balance/batch",
   },
 };
 ```
@@ -34,6 +34,18 @@ window.APP_CONFIG = {
 - `tronAddress`: TRON 地址查询接口
 - `ethereumAddress`: Ethereum 地址查询接口
 - `batchBalance`: 批量余额查询接口
+
+页面所有接口请求都会自动读取 `window.APP_CONFIG`。正式接口地址只改
+`config.js`，不需要改 `app.js`。
+
+默认接口封装在 `api.js`：
+
+```js
+api.prices("USDT,BTC,TRX,ETH");
+api.tronAddress(addr);
+api.ethereumAddress(addr);
+api.batchBalance(data);
+```
 
 当前没有接口地址时会使用本地预览数据，方便先看 UI。
 

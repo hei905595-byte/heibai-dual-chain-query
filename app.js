@@ -1,3 +1,5 @@
+import { api } from "./api.js";
+
 const DEFAULT_CONFIG = {
   siteHost: "heibai.com",
   endpoints: {
@@ -81,14 +83,10 @@ batchButton.addEventListener("click", () => {
 async function loadPrices() {
   let prices = fallbackPrices;
 
-  if (CONFIG.endpoints.prices) {
-    try {
-      const response = await fetch(CONFIG.endpoints.prices);
-      if (!response.ok) throw new Error("价格接口异常");
-      prices = normalizePrices(await response.json());
-    } catch {
-      prices = fallbackPrices;
-    }
+  try {
+    prices = normalizePrices(await api.prices("USDT,BTC,TRX,ETH"));
+  } catch {
+    prices = fallbackPrices;
   }
 
   Object.entries(prices).forEach(([symbol, value]) => {
@@ -98,20 +96,25 @@ async function loadPrices() {
 }
 
 async function queryAddress(chain, address) {
-  const endpoint =
-    chain === "tron" ? CONFIG.endpoints.tronAddress : CONFIG.endpoints.ethereumAddress;
+  const hasConfiguredEndpoint =
+    chain === "tron"
+      ? Boolean(CONFIG.endpoints.tronAddress)
+      : Boolean(CONFIG.endpoints.ethereumAddress);
 
-  if (!endpoint) {
+  if (!hasConfiguredEndpoint && !isApiRouteAvailable()) {
     return getPreviewAddressData(chain, address);
   }
 
-  const url = new URL(endpoint);
-  url.searchParams.set("address", address);
+  const payload =
+    chain === "tron"
+      ? await api.tronAddress(address)
+      : await api.ethereumAddress(address);
 
-  const response = await fetch(url);
-  if (!response.ok) throw new Error("地址查询接口异常");
+  return normalizeAddressResult(payload);
+}
 
-  return normalizeAddressResult(await response.json());
+function isApiRouteAvailable() {
+  return window.location.protocol !== "file:";
 }
 
 function normalizePrices(payload) {

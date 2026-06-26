@@ -1,0 +1,56 @@
+const DEFAULT_ENDPOINTS = {
+  prices: "/api/prices",
+  tronAddress: "/api/address/tron",
+  ethereumAddress: "/api/address/ethereum",
+  batchBalance: "/api/balance/batch",
+};
+
+export const api = {
+  prices: (symbols) =>
+    fetchJson(withQuery(getEndpoint("prices"), { symbols })),
+
+  tronAddress: (addr) =>
+    fetchJson(withAddress(getEndpoint("tronAddress"), addr)),
+
+  ethereumAddress: (addr) =>
+    fetchJson(withAddress(getEndpoint("ethereumAddress"), addr)),
+
+  batchBalance: (data) =>
+    fetchJson(getEndpoint("batchBalance"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }),
+};
+
+function getEndpoint(key) {
+  return window.APP_CONFIG?.endpoints?.[key] || DEFAULT_ENDPOINTS[key];
+}
+
+function withQuery(url, params) {
+  const target = new URL(url, window.location.origin);
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      target.searchParams.set(key, value);
+    }
+  });
+
+  return target.toString();
+}
+
+function withAddress(url, address) {
+  if (url.includes("{addr}")) {
+    return url.replace("{addr}", encodeURIComponent(address));
+  }
+
+  return `${url.replace(/\/+$/, "")}/${encodeURIComponent(address)}`;
+}
+
+async function fetchJson(url, options) {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(`接口请求失败：${response.status}`);
+  }
+  return response.json();
+}
