@@ -105,19 +105,19 @@ button {
 }
 
 main {
-  padding: 18px 14px 42px;
+  padding: 18px 22px 42px;
 }
 
 .brand-strip {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 0 64px;
+  padding: 12px 4px 58px;
 }
 
 .brand-mark {
-  width: 58px;
-  height: 58px;
+  width: 52px;
+  height: 52px;
   display: grid;
   place-items: center;
   border-radius: 9px;
@@ -128,8 +128,8 @@ main {
 
 .brand-mark svg,
 .service-icon svg {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -157,7 +157,7 @@ main {
 }
 
 .lead {
-  margin: 0 0 22px;
+  margin: 0 0 20px;
   color: #969da6;
   font-size: 16px;
   font-weight: 500;
@@ -194,7 +194,7 @@ main {
 
 .search-form {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 92px;
+  grid-template-columns: minmax(0, 1fr) 86px;
   overflow: hidden;
   border: 1px solid rgba(28, 128, 232, 0.4);
   border-radius: 7px;
@@ -236,7 +236,7 @@ main {
 
 .rate-card {
   margin-top: 28px;
-  padding: 26px 26px 30px;
+  padding: 24px 24px 28px;
   border: 1px solid rgba(20, 129, 241, 0.45);
   border-radius: 12px;
   background:
@@ -369,13 +369,13 @@ main {
 }
 
 .service-card {
-  min-height: 112px;
+  min-height: 96px;
   display: grid;
-  grid-template-columns: 58px minmax(0, 1fr) 22px;
+  grid-template-columns: 50px minmax(0, 1fr) 20px;
   grid-template-rows: auto auto;
   align-items: center;
-  gap: 14px;
-  padding: 30px 20px;
+  gap: 13px;
+  padding: 26px 18px;
   border: 1px solid rgba(255, 37, 75, 0.34);
   border-radius: 12px;
   background:
@@ -396,8 +396,8 @@ main {
 }
 
 .service-icon {
-  width: 54px;
-  height: 54px;
+  width: 48px;
+  height: 48px;
   display: grid;
   place-items: center;
   margin-bottom: 0;
@@ -424,8 +424,8 @@ main {
 
 .service-icon.outline svg,
 .service-icon.solid svg {
-  width: 44px;
-  height: 44px;
+  width: 39px;
+  height: 39px;
 }
 
 .service-icon.solid {
@@ -435,12 +435,25 @@ main {
 }
 
 .service-icon.tp {
+  position: relative;
   border: 1px solid rgba(40, 158, 255, 0.45);
   border-radius: 50%;
   color: #8fd7ff;
   background: rgba(23, 157, 255, 0.12);
   font-size: 1.18rem;
   letter-spacing: 0;
+}
+
+.service-icon.tp::before {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 9px;
+  height: 9px;
+  transform: rotate(45deg);
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  content: "";
 }
 
 .service-card h2 {
