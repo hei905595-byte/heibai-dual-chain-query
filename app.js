@@ -8,6 +8,11 @@ const DEFAULT_CONFIG = {
     ethereumAddress: "",
     batchBalance: "",
   },
+  navigation: {
+    points: "/points",
+    query: "/query",
+    guard: "/guard",
+  },
 };
 
 const CONFIG = {
@@ -16,6 +21,10 @@ const CONFIG = {
   endpoints: {
     ...DEFAULT_CONFIG.endpoints,
     ...(window.APP_CONFIG?.endpoints ?? {}),
+  },
+  navigation: {
+    ...DEFAULT_CONFIG.navigation,
+    ...(window.APP_CONFIG?.navigation ?? {}),
   },
 };
 
@@ -39,6 +48,9 @@ const batchButton = document.querySelector("#batchButton");
 const chainTabs = document.querySelectorAll(".chain-tabs button");
 
 siteHost.textContent = CONFIG.siteHost;
+document.querySelectorAll("[data-app-link]").forEach((link) => {
+  link.href = CONFIG.navigation[link.dataset.appLink];
+});
 
 chainTabs.forEach((button) => {
   button.addEventListener("click", () => {

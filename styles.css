@@ -72,6 +72,38 @@ button {
   font-weight: 500;
 }
 
+.suite-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 0 16px 12px;
+  background: rgba(5, 13, 25, 0.88);
+}
+
+.suite-nav a {
+  min-height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(29, 142, 255, 0.2);
+  border-radius: 10px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.suite-nav a:hover,
+.suite-nav a:focus-visible {
+  color: var(--text);
+  border-color: rgba(29, 142, 255, 0.48);
+}
+
+.suite-nav a.active {
+  color: #fff;
+  border-color: rgba(23, 157, 255, 0.62);
+  background: linear-gradient(135deg, rgba(23, 157, 255, 0.34), rgba(36, 169, 232, 0.16));
+}
+
 .icon-button,
 .refresh-button {
   width: 42px;
