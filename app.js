@@ -28,13 +28,6 @@ const CONFIG = {
   },
 };
 
-const fallbackPrices = {
-  USDT: 6.79,
-  BTC: 418716.3,
-  TRX: 2.23,
-  ETH: 11177.29,
-};
-
 const state = {
   chain: "tron",
 };
@@ -93,27 +86,22 @@ batchButton.addEventListener("click", () => {
 });
 
 async function loadPrices() {
-  let prices = fallbackPrices;
-
   try {
-    prices = normalizePrices(await api.prices("USDT,BTC,TRX,ETH"));
+    const prices = normalizePrices(await api.prices("USDT,BTC,TRX,ETH"));
+    Object.entries(prices).forEach(([symbol, value]) => {
+      const node = document.querySelector(`[data-symbol="${symbol}"]`);
+      if (node) node.textContent = `${value} ¥`;
+    });
   } catch {
-    prices = fallbackPrices;
+    document.querySelectorAll("[data-symbol]").forEach((node) => {
+      node.textContent = "暂不可用";
+    });
+    setHint("币价服务暂不可用，地址查询结果不会使用模拟数据");
   }
-
-  Object.entries(prices).forEach(([symbol, value]) => {
-    const node = document.querySelector(`[data-symbol="${symbol}"]`);
-    if (node) node.textContent = `${value} ¥`;
-  });
 }
 
 async function queryAddress(chain, address) {
-  const hasConfiguredEndpoint =
-    chain === "tron"
-      ? Boolean(CONFIG.endpoints.tronAddress)
-      : Boolean(CONFIG.endpoints.ethereumAddress);
-
-  if (!hasConfiguredEndpoint && !isApiRouteAvailable()) {
+  if (window.location.protocol === "file:") {
     return getPreviewAddressData(chain, address);
   }
 
@@ -125,16 +113,15 @@ async function queryAddress(chain, address) {
   return normalizeAddressResult(payload);
 }
 
-function isApiRouteAvailable() {
-  return window.location.protocol !== "file:";
-}
-
 function normalizePrices(payload) {
+  const required = ["USDT", "BTC", "TRX", "ETH"];
+  const normalized = Object.fromEntries(required.map((symbol) => [symbol, payload[symbol] ?? payload[symbol.toLowerCase()]]));
+  if (required.some((symbol) => !Number.isFinite(Number(normalized[symbol])))) {
+    throw new Error("币价响应不完整");
+  }
   return {
-    USDT: payload.USDT ?? payload.usdt ?? fallbackPrices.USDT,
-    BTC: payload.BTC ?? payload.btc ?? fallbackPrices.BTC,
-    TRX: payload.TRX ?? payload.trx ?? fallbackPrices.TRX,
-    ETH: payload.ETH ?? payload.eth ?? fallbackPrices.ETH,
+    USDT: Number(normalized.USDT), BTC: Number(normalized.BTC),
+    TRX: Number(normalized.TRX), ETH: Number(normalized.ETH),
   };
 }
 
