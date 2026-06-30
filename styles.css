@@ -241,8 +241,18 @@ main {
   border: 0;
   outline: none;
   color: var(--text);
+  background: transparent;
+  caret-color: #67c9ff;
+  -webkit-text-fill-color: var(--text);
   font-size: 15px;
   font-weight: 400;
+}
+
+.search-form input:-webkit-autofill,
+.search-form input:-webkit-autofill:hover,
+.search-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text);
+  box-shadow: 0 0 0 1000px #07162a inset;
 }
 
 .search-form input::placeholder {

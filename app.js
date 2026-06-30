@@ -172,6 +172,9 @@ function normalizePrices(payload) {
 
 function normalizeAddressResult(payload) {
   return {
+    nativeBalance: Number.isFinite(Number(payload.nativeBalance))
+      ? `${Number(payload.nativeBalance).toLocaleString("en-US", { maximumFractionDigits: 6 })} ${payload.nativeSymbol || ""}`.trim()
+      : "未采集",
     income: payload.income ?? payload.totalIn ?? payload.usdtIn ?? "--",
     outcome: payload.outcome ?? payload.totalOut ?? payload.usdtOut ?? "--",
     txCount: payload.txCount ?? payload.count ?? payload.transactions?.length ?? "--",
@@ -181,6 +184,9 @@ function normalizeAddressResult(payload) {
 function normalizeIntelSummary(report) {
   const usdt = report.trc20?.tokens?.find((token) => token.symbol === "USDT");
   return {
+    nativeBalance: report.account?.balanceSun != null
+      ? `${(Number(report.account.balanceSun) / 1_000_000).toLocaleString("en-US", { maximumFractionDigits: 6 })} TRX`
+      : "未采集",
     income: usdt ? formatTokenAmount(usdt.rawIn, usdt.decimals, "USDT") : "0 USDT",
     outcome: usdt ? formatTokenAmount(usdt.rawOut, usdt.decimals, "USDT") : "0 USDT",
     txCount: report.activity?.transactionCount ?? "--",
@@ -191,6 +197,7 @@ function renderResult(chain, address, data) {
   document.querySelector("#resultChain").textContent =
     chain === "tron" ? "TRON" : "Ethereum";
   document.querySelector("#resultAddress").textContent = address;
+  document.querySelector("#nativeBalance").textContent = data.nativeBalance;
   document.querySelector("#incomeValue").textContent = data.income;
   document.querySelector("#outcomeValue").textContent = data.outcome;
   document.querySelector("#txCount").textContent = data.txCount;
