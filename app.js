@@ -1,5 +1,6 @@
 import { api } from "./api.js";
 import { safeEvidenceUrl } from "./link-policy.mjs";
+import { addressError, isValidAddress } from "./validation.mjs";
 
 const DEFAULT_CONFIG = {
   siteHost: "heibai.com",
@@ -55,6 +56,7 @@ const batchAddresses = document.querySelector("#batchAddresses");
 const batchStatus = document.querySelector("#batchStatus");
 const batchResults = document.querySelector("#batchResults");
 const chainTabs = document.querySelectorAll(".chain-tabs button");
+const queryButton = queryForm.querySelector('button[type="submit"]');
 
 siteHost.textContent = CONFIG.siteHost;
 document.querySelectorAll("[data-app-link]").forEach((link) => {
@@ -80,12 +82,22 @@ document.querySelector(".refresh-button").addEventListener("click", () => {
   loadPrices();
 });
 
+document.querySelector(".icon-button").addEventListener("click", () => {
+  setHint("更多功能尚未开放，可使用上方三个产品入口");
+});
+
 queryForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const address = addressInput.value.trim();
   if (!address) return;
+  if (!isValidAddress(state.chain, address)) {
+    setHint(addressError(state.chain));
+    addressInput.focus();
+    return;
+  }
 
   setHint("正在查询地址记录...");
+  setBusy(queryButton, true, "查询中…");
 
   try {
     const data = await queryAddress(state.chain, address);
@@ -97,6 +109,8 @@ queryForm.addEventListener("submit", async (event) => {
     resultPanel.hidden = true;
     intelPanel.hidden = true;
     setHint(error instanceof Error ? error.message : "查询失败，请稍后再试");
+  } finally {
+    setBusy(queryButton, false, "搜索");
   }
 });
 
@@ -116,6 +130,11 @@ batchForm.addEventListener("submit", async (event) => {
   }
   if (addresses.length > 20) {
     batchStatus.textContent = "每次最多查询 20 个地址。";
+    return;
+  }
+  const invalid = addresses.filter((address) => !isValidAddress(address.startsWith("0x") ? "ethereum" : "tron", address));
+  if (invalid.length) {
+    batchStatus.textContent = `发现 ${invalid.length} 个无效地址，请检查格式。`;
     return;
   }
   batchStatus.textContent = `正在查询 ${addresses.length} 个地址…`;
@@ -187,10 +206,16 @@ function normalizeIntelSummary(report) {
     nativeBalance: report.account?.balanceSun != null
       ? `${(Number(report.account.balanceSun) / 1_000_000).toLocaleString("en-US", { maximumFractionDigits: 6 })} TRX`
       : "未采集",
-    income: usdt ? formatTokenAmount(usdt.rawIn, usdt.decimals, "USDT") : "0 USDT",
-    outcome: usdt ? formatTokenAmount(usdt.rawOut, usdt.decimals, "USDT") : "0 USDT",
+    income: usdt ? formatTokenAmount(usdt.rawIn, usdt.decimals, "USDT") : "近30天无 USDT 记录",
+    outcome: usdt ? formatTokenAmount(usdt.rawOut, usdt.decimals, "USDT") : "近30天无 USDT 记录",
     txCount: report.activity?.transactionCount ?? "--",
   };
+}
+
+function setBusy(button, busy, label) {
+  button.disabled = busy;
+  button.textContent = label;
+  button.setAttribute("aria-busy", String(busy));
 }
 
 function renderResult(chain, address, data) {

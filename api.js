@@ -52,7 +52,17 @@ function withAddress(url, address) {
 }
 
 async function fetchJson(url, options) {
-  const response = await fetch(url, options);
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), 15000);
+  let response;
+  try {
+    response = await fetch(url, { ...options, signal: controller.signal });
+  } catch (error) {
+    if (error?.name === "AbortError") throw new Error("接口响应超时，请稍后重试");
+    throw new Error("网络连接失败，请检查网络后重试");
+  } finally {
+    window.clearTimeout(timer);
+  }
   if (!response.ok) {
     let message = `接口请求失败：${response.status}`;
     try {
