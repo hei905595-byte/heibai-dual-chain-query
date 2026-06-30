@@ -1,6 +1,7 @@
 const DEFAULT_ENDPOINTS = {
   prices: "/api/prices",
   tronAddress: "/api/address/tron",
+  tronIntel: "/api/intel/tron",
   ethereumAddress: "/api/address/ethereum",
   batchBalance: "/api/balance/batch",
 };
@@ -11,6 +12,9 @@ export const api = {
 
   tronAddress: (addr) =>
     fetchJson(withAddress(getEndpoint("tronAddress"), addr)),
+
+  tronIntel: (addr) =>
+    fetchJson(withAddress(getEndpoint("tronIntel"), addr)),
 
   ethereumAddress: (addr) =>
     fetchJson(withAddress(getEndpoint("ethereumAddress"), addr)),
@@ -50,7 +54,12 @@ function withAddress(url, address) {
 async function fetchJson(url, options) {
   const response = await fetch(url, options);
   if (!response.ok) {
-    throw new Error(`接口请求失败：${response.status}`);
+    let message = `接口请求失败：${response.status}`;
+    try {
+      const body = await response.json();
+      message = body?.error?.message || body?.error || message;
+    } catch {}
+    throw new Error(message);
   }
   return response.json();
 }

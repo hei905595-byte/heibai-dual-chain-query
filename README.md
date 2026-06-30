@@ -4,7 +4,7 @@
 
 ## 预览
 
-直接用浏览器打开 `index.html` 即可。
+页面必须通过 HTTP 静态服务打开；直接使用 `file://` 时不会生成或展示模拟查询结果。
 
 ## 接口接入
 
@@ -22,9 +22,11 @@ window.APP_CONFIG = {
   endpoints: {
     prices: "/api/prices",
     tronAddress: "/api/address/tron",
+    tronIntel: "/api/intel/tron",
     ethereumAddress: "/api/address/ethereum",
     batchBalance: "/api/balance/batch",
   },
+  evidenceHosts: ["tronscan.org", "nile.tronscan.org", "apilist.tronscanapi.com"],
 };
 ```
 
@@ -32,6 +34,7 @@ window.APP_CONFIG = {
 
 - `prices`: 币价接口
 - `tronAddress`: TRON 地址查询接口
+- `tronIntel`: TRON 地址深度情报接口
 - `ethereumAddress`: Ethereum 地址查询接口
 - `batchBalance`: 批量余额查询接口
 
@@ -43,11 +46,13 @@ window.APP_CONFIG = {
 ```js
 api.prices("USDT,BTC,TRX,ETH");
 api.tronAddress(addr);
+api.tronIntel(addr);
 api.ethereumAddress(addr);
 api.batchBalance(data);
 ```
 
-当前没有接口地址时会使用本地预览数据，方便先看 UI。
+接口不可用时页面明确显示失败，不生成预览数据或模拟情报。
+证据链接仅在使用 HTTPS 且域名存在于 `evidenceHosts` 白名单时显示；接口返回的任意外部 URL 不会直接写入页面。
 
 ## Git 上传
 

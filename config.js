@@ -3,6 +3,7 @@ window.APP_CONFIG = {
   endpoints: {
     prices: "/api/prices",
     tronAddress: "/api/address/tron",
+    tronIntel: "/api/intel/tron",
     ethereumAddress: "/api/address/ethereum",
     batchBalance: "/api/balance/batch",
   },
@@ -11,4 +12,5 @@ window.APP_CONFIG = {
     query: "https://heibai-dual-chain-query.vercel.app/",
     guard: "https://heibai-address-guard.vercel.app/",
   },
+  evidenceHosts: ["tronscan.org", "nile.tronscan.org", "apilist.tronscanapi.com"],
 };

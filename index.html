@@ -65,22 +65,22 @@
             <li>
               <span class="coin coin-usdt">T</span>
               <strong>USDT</strong>
-              <em data-symbol="USDT">-- ¥</em>
+              <em data-symbol="USDT">$--</em>
             </li>
             <li>
               <span class="coin coin-btc">B</span>
               <strong>BTC</strong>
-              <em data-symbol="BTC">-- ¥</em>
+              <em data-symbol="BTC">$--</em>
             </li>
             <li>
               <span class="coin coin-trx">T</span>
               <strong>TRX</strong>
-              <em data-symbol="TRX">-- ¥</em>
+              <em data-symbol="TRX">$--</em>
             </li>
             <li>
               <span class="coin coin-eth">E</span>
               <strong>ETH</strong>
-              <em data-symbol="ETH">-- ¥</em>
+              <em data-symbol="ETH">$--</em>
             </li>
           </ul>
           <p>实时获取主流平台平均价格，仅供查询参考</p>
@@ -109,6 +109,21 @@
               <dd id="txCount">--</dd>
             </div>
           </dl>
+        </section>
+
+        <section class="intel-panel" id="intelPanel" aria-live="polite" hidden>
+          <div class="intel-heading">
+            <div>
+              <span class="eyebrow">TRON ADDRESS INTELLIGENCE</span>
+              <h2>陌生地址调查报告</h2>
+            </div>
+            <span class="intel-badge" id="intelBadge">待查询</span>
+          </div>
+          <p class="intel-window" id="intelWindow"></p>
+          <div class="intel-warnings" id="intelWarnings" hidden></div>
+          <div class="intel-stats" id="intelStats"></div>
+          <div class="intel-groups" id="intelGroups"></div>
+          <p class="intel-disclaimer" id="intelDisclaimer"></p>
         </section>
 
         <section class="service-list" aria-label="服务入口">
