@@ -49,6 +49,11 @@ const formHint = document.querySelector("#formHint");
 const resultPanel = document.querySelector("#resultPanel");
 const intelPanel = document.querySelector("#intelPanel");
 const batchButton = document.querySelector("#batchButton");
+const batchDialog = document.querySelector("#batchDialog");
+const batchForm = document.querySelector("#batchForm");
+const batchAddresses = document.querySelector("#batchAddresses");
+const batchStatus = document.querySelector("#batchStatus");
+const batchResults = document.querySelector("#batchResults");
 const chainTabs = document.querySelectorAll(".chain-tabs button");
 
 siteHost.textContent = CONFIG.siteHost;
@@ -96,7 +101,31 @@ queryForm.addEventListener("submit", async (event) => {
 });
 
 batchButton.addEventListener("click", () => {
-  setHint("批量查询接口已预留，等待后端接口地址接入");
+  batchDialog.showModal();
+});
+
+document.querySelector("#batchCancel").addEventListener("click", () => batchDialog.close());
+
+batchForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const addresses = parseBatchInput(batchAddresses.value);
+  if (!addresses.length) {
+    batchStatus.textContent = "请至少输入一个地址。";
+    return;
+  }
+  if (addresses.length > 20) {
+    batchStatus.textContent = "每次最多查询 20 个地址。";
+    return;
+  }
+  batchStatus.textContent = `正在查询 ${addresses.length} 个地址…`;
+  batchResults.replaceChildren();
+  try {
+    const payload = await api.batchBalance({ addresses });
+    renderBatchBalances(payload.results || []);
+    batchStatus.textContent = `完成：返回 ${payload.count ?? payload.results?.length ?? 0} 条结果。`;
+  } catch (error) {
+    batchStatus.textContent = error instanceof Error ? error.message : "批量查询失败。";
+  }
 });
 
 async function loadPrices() {
@@ -305,6 +334,25 @@ function createText(tag, text) {
   const node = document.createElement(tag);
   node.textContent = text;
   return node;
+}
+
+function parseBatchInput(value) {
+  return [...new Set(String(value).split(/[\s,，;；]+/).map(item => item.trim()).filter(Boolean))];
+}
+
+function renderBatchBalances(results) {
+  batchResults.replaceChildren(...results.map(result => {
+    const row = document.createElement("article");
+    const detail = document.createElement("div");
+    detail.append(createText("strong", shortAddress(result.address)), createText("span", result.chain ? result.chain.toUpperCase() : "无法识别链"));
+    const value = result.ok
+      ? `${Number(result.balance).toLocaleString("en-US", { maximumFractionDigits: 6 })} ${result.symbol}`
+      : result.error?.message || "查询失败";
+    const badge = createText("em", value);
+    badge.dataset.ok = String(Boolean(result.ok));
+    row.append(detail, badge);
+    return row;
+  }));
 }
 
 loadPrices();

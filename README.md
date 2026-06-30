@@ -51,6 +51,8 @@ api.ethereumAddress(addr);
 api.batchBalance(data);
 ```
 
+线上批量余额弹窗最多接受 20 个地址，支持换行、逗号分隔、自动去重和双链识别。
+
 接口不可用时页面明确显示失败，不生成预览数据或模拟情报。
 证据链接仅在使用 HTTPS 且域名存在于 `evidenceHosts` 白名单时显示；接口返回的任意外部 URL 不会直接写入页面。
 

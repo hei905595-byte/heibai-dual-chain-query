@@ -186,6 +186,25 @@
       </footer>
     </div>
 
+    <dialog class="batch-dialog" id="batchDialog">
+      <form method="dialog" class="batch-dialog-card" id="batchForm">
+        <div class="batch-dialog-head">
+          <div>
+            <span>批量余额查询</span>
+            <strong>最多 20 个 TRON / Ethereum 地址</strong>
+          </div>
+          <button value="cancel" aria-label="关闭">×</button>
+        </div>
+        <textarea id="batchAddresses" rows="7" placeholder="每行一个地址，也支持逗号分隔"></textarea>
+        <p id="batchStatus">系统会自动识别链类型并去重。</p>
+        <div class="batch-actions">
+          <button value="cancel" type="button" id="batchCancel">取消</button>
+          <button value="default" type="submit">开始查询</button>
+        </div>
+        <div class="batch-results" id="batchResults"></div>
+      </form>
+    </dialog>
+
     <script src="./config.js"></script>
     <script src="./app.js" type="module"></script>
   </body>
