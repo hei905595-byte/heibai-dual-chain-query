@@ -105,6 +105,7 @@ batchButton.addEventListener("click", () => {
 });
 
 document.querySelector("#batchCancel").addEventListener("click", () => batchDialog.close());
+document.querySelector("#batchClose").addEventListener("click", () => batchDialog.close());
 
 batchForm.addEventListener("submit", async (event) => {
   event.preventDefault();
